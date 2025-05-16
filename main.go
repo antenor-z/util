@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -131,8 +133,10 @@ func getFwd(c *gin.Context) {
 }
 
 func getInfo(c *gin.Context) a4Info {
+	vals := slices.Collect(maps.Values(c.Request.Header))
+	fmt.Println(vals)
 	return a4Info{
-		IpAddr:     c.RemoteIP(),
+		IpAddr:     c.Request.Header.Get("X-Forwarded-For"),
 		RemoteHost: c.Request.RemoteAddr,
 		UserAgent:  c.Request.UserAgent(),
 		Port:       c.Request.URL.Port(),
