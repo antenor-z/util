@@ -98,7 +98,7 @@ func home(c *gin.Context) {
 }
 
 func getIp(c *gin.Context) {
-	ip := c.RemoteIP()
+	ip := c.Request.Header.Get("CF-Connecting-IP")
 	c.String(200, "%s\n", ip)
 }
 
@@ -136,7 +136,7 @@ func getInfo(c *gin.Context) a4Info {
 	vals := slices.Collect(maps.Values(c.Request.Header))
 	fmt.Println(vals)
 	return a4Info{
-		IpAddr:     c.Request.Header.Get("X-Forwarded-For"),
+		IpAddr:     c.Request.Header.Get("CF-Connecting-IP"),
 		RemoteHost: c.Request.RemoteAddr,
 		UserAgent:  c.Request.UserAgent(),
 		Port:       c.Request.URL.Port(),
