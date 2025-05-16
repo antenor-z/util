@@ -1,5 +1,5 @@
 services:
-  note-back:
+  util:
     build: .
     ports:
       - "5200:5200"
