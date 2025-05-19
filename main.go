@@ -77,7 +77,6 @@ func home(c *gin.Context) {
 		c.String(200, ip)
 		return
 	}
-	host := c.Request.Host
 	info := getInfo(c)
 	var infoJsonStr string
 	infoJsonBytes, err := json.Marshal(info)
@@ -89,7 +88,7 @@ func home(c *gin.Context) {
 
 	a := allInfo{
 		Info:    info,
-		Root:    host,
+		Root:    GetHost(),
 		All:     serializePlain(info),
 		AllJson: infoJsonStr,
 	}

@@ -37,8 +37,14 @@
         overflow-wrap: break-word;
     }
 
-    div.text td.td-fixed {
+    div.text table tr > td:first-child {
         width: 30%;
+        min-width: 100px;
+    }
+    
+    div.main table tr > td:first-child {
+        width: 20%;
+        min-width: 80px;
     }
 
     div.text td.td-fixed-arrow {
@@ -105,52 +111,52 @@
         <div class="text">
             <table>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}</td>
+                    <td>$ curl {{ .Root }}</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.IpAddr }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/ip</td>
+                    <td>$ curl {{ .Root }}/ip</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.IpAddr }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/ua</td>
+                    <td>$ curl {{ .Root }}/ua</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.UserAgent }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/lang</td>
+                    <td>$ curl {{ .Root }}/lang</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Language }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/encoding</td>
+                    <td>$ curl {{ .Root }}/encoding</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Encoding }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/mime</td>
+                    <td>$ curl {{ .Root }}/mime</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Mime }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/charset</td>
+                    <td>$ curl {{ .Root }}/charset</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Charset }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/forwarded</td>
+                    <td>$ curl {{ .Root }}/forwarded</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Forwarded }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/all</td>
+                    <td>$ curl {{ .Root }}/all</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .All }}</td>
                 </tr>
                 <tr>
-                    <td class="td-fixed">$ curl {{ .Root }}/all.json</td>
+                    <td>$ curl {{ .Root }}/all.json</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .AllJson }}</td>
                 </tr>
