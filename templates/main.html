@@ -111,52 +111,52 @@
         <div class="text">
             <table>
                 <tr>
-                    <td>$ curl {{ .Root }}</td>
+                    <td>$ curl -L{{ .Root }}</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.IpAddr }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/ip</td>
+                    <td>$ curl -L{{ .Root }}/ip</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.IpAddr }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/ua</td>
+                    <td>$ curl -L{{ .Root }}/ua</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.UserAgent }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/lang</td>
+                    <td>$ curl -L{{ .Root }}/lang</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Language }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/encoding</td>
+                    <td>$ curl -L{{ .Root }}/encoding</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Encoding }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/mime</td>
+                    <td>$ curl -L{{ .Root }}/mime</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Mime }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/charset</td>
+                    <td>$ curl -L{{ .Root }}/charset</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Charset }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/forwarded</td>
+                    <td>$ curl -L{{ .Root }}/forwarded</td>
                     <td class="td-fixed-arrow">=></td>
                     <td>{{ .Info.Forwarded }}</td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/all</td>
+                    <td>$ curl -L{{ .Root }}/all</td>
                     <td class="td-fixed-arrow">=></td>
                     <td><pre>{{ .All }}</pre></td>
                 </tr>
                 <tr>
-                    <td>$ curl {{ .Root }}/all.json</td>
+                    <td>$ curl -L{{ .Root }}/all.json</td>
                     <td class="td-fixed-arrow">=></td>
                     <td><pre>{{ .AllJson }}</pre></td>
                 </tr>
