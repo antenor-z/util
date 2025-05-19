@@ -73,7 +73,7 @@ func serializePlain(i a4Info) string {
 
 func home(c *gin.Context) {
 	if !strings.Contains(c.Request.UserAgent(), "Mozilla") {
-		ip := c.RemoteIP()
+		ip := c.Request.Header.Get("CF-Connecting-IP")
 		c.String(200, ip)
 		return
 	}
