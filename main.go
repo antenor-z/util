@@ -2,7 +2,6 @@ package main
 
 import (
 	"util/api"
-	"util/security"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +21,8 @@ func main() {
 }
 
 func home(c *gin.Context) {
-	c.HTML(200, "main.html", gin.H{"IP": security.GetIP(), "UserAgent": c.Request.UserAgent()})
+	ip := c.Request.Header.Get("CF-Connecting-IP")
+	c.HTML(200, "main.html", gin.H{"IP": ip, "UserAgent": c.Request.UserAgent()})
 }
 
 func whois(c *gin.Context) {
