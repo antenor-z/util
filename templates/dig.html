@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Whois</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    body {
+        font-size: 14px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dig</h1>
+        <input id="url" type="url">
+        <select name="record-type" id="record-type">
+            <option value="A" selected>A</option>
+            <option value="AAAA">AAAA</option>
+            <option value="CAA">CAA</option>
+            <option value="CNAME">CNAME</option>
+            <option value="DNSKEY">DNSKEY</option>
+            <option value="DS">DS</option>
+            <option value="MX">MX</option>
+            <option value="NS">NS</option>
+            <option value="PTR">PTR</option>
+            <option value="SOA">SOA</option>
+            <option value="SRV">SRV</option>
+            <option value="TLSA">TLSA</option>
+            <option value="TSIG">TSIG</option>
+            <option value="TXT">TXT</option>
+        </select>
+        <button onclick="dig()">Submit</button>
+
+        <p style="font-family: monospace;" id="response"></p>
+    </div>
+    <script>
+        async function dig() {
+            const URL = document.getElementById("url").value
+            const TYPE = document.getElementById("record-type").value
+            const response = document.getElementById("response")
+            response.innerText = "Fetching..."
+            r = await fetch(`/api/dig?host=${URL}&type=${TYPE}`)
+            responseText = await r.text()
+            response.innerText = responseText
+        }
+    </script>
+</body>
+
+</html>
