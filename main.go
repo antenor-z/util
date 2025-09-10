@@ -10,6 +10,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
+	r.Static("/static", "./static")
 	r.GET("/", home)
 	r.GET("/api/dig", api.Dig)
 	r.GET("/api/whois", api.Whois)

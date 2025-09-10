@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Whois</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Dig</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
     body {
@@ -11,7 +12,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <content>
         <h1>Dig</h1>
         <input id="url" type="url">
         <select name="record-type" id="record-type">
@@ -32,7 +33,9 @@
         </select>
         <button onclick="dig()">Submit</button>
 
-        <p style="font-family: monospace;" id="response"></p>
+        <div class="results-box" id="response"></div>
+    </content>
+    </body>
     </div>
     <script>
         async function dig() {

@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Code / Decode</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -11,20 +12,20 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <content>
         <h1>Code / Decode</h1>
         <input id="input" type="text">
         <select name="operation" id="operation" onchange="dig()">
-            <option value="MD5" selected>MD5 Hash</option>
+            <option value="MD5">MD5 Hash</option>
             <option value="SHA-1" selected>SHA-1 Hash</option>
-            <option value="base64-encode" selected>Base 64 encode</option>
-            <option value="base64-decode" selected>Base 64 decode</option>
-            <option value="url-encode" selected>URL Encode</option>
-            <option value="url-decode" selected>URL Decode</option>
+            <option value="base64-encode">Base 64 encode</option>
+            <option value="base64-decode">Base 64 decode</option>
+            <option value="url-encode">URL Encode</option>
+            <option value="url-decode">URL Decode</option>
         </select>
         <button onclick="codedecode()">Submit</button>
-        <p style="font-family: monospace;" id="response"></p>
-    </div>
+        <div class="results-box" id="response"></div>
+    </content>
     <script>
         async function hash(message, hashType) {
             const msgBuffer = new TextEncoder('utf-8').encode(message)

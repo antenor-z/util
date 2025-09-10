@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Whois</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -11,12 +12,12 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <content>
         <h1>Whois</h1>
         <input id="url" type="url">
         <button onclick="whois()">Submit</button>
-        <p style="font-family: monospace;" id="response"></p>
-    </div>
+        <div class="results-box" id="response"></div>
+    </content>
     <script>
         async function whois() {
             const URL = document.getElementById("url").value
