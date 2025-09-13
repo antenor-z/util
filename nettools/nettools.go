@@ -72,12 +72,31 @@ func fetchRDAP(ip string) (*RDAPResponse, error) {
 	return &rdap, nil
 }
 
-func GetIPOrganization(ip string) (string, error) {
+type IpInfo struct {
+	Organization string `json:"organization"`
+	Country      string `json:"country"`
+}
+
+func GetIpInfo(ip string) (*IpInfo, error) {
 	rdap, err := fetchRDAP(ip)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
+	ipOrganization, err := getIPOrganization(rdap, ip)
+	if err != nil {
+		return nil, err
+	}
+	ipCountry, err := getIPCountry(rdap, ip)
+	if err != nil {
+		return nil, err
+	}
+	return &IpInfo{
+		Organization: ipOrganization,
+		Country:      ipCountry,
+	}, nil
+}
 
+func getIPOrganization(rdap *RDAPResponse, ip string) (string, error) {
 	if len(rdap.Entities) > 0 {
 		org, _ := parseVCard(rdap.Entities[0].VCardArray)
 		if org != "" {
@@ -91,12 +110,7 @@ func GetIPOrganization(ip string) (string, error) {
 	return "", fmt.Errorf("organization not found for IP %s", ip)
 }
 
-func GetIPCountry(ip string) (string, error) {
-	rdap, err := fetchRDAP(ip)
-	if err != nil {
-		return "", err
-	}
-
+func getIPCountry(rdap *RDAPResponse, ip string) (string, error) {
 	if rdap.Country != "" {
 		return rdap.Country, nil
 	}

@@ -2,7 +2,6 @@ package main
 
 import (
 	"util/api"
-	"util/nettools"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,11 +13,13 @@ func main() {
 	r.Static("/static", "./static")
 	r.GET("/", home)
 	r.GET("/conn", connection)
-	r.GET("/api/dig", api.Dig)
-	r.GET("/api/whois", api.Whois)
-	r.GET("/whois", whois)
 	r.GET("/dig", dig)
+	r.GET("/whois", whois)
 	r.GET("/codedecode", codedecode)
+	apiGroup := r.Group("/api")
+	apiGroup.GET("/dig", api.Dig)
+	apiGroup.GET("/whois", api.Whois)
+	apiGroup.GET("/ip", api.GetIPInfo)
 
 	r.Run(":5200")
 }
@@ -35,20 +36,10 @@ func home(c *gin.Context) {
 
 func connection(c *gin.Context) {
 	ip := c.Request.Header.Get("CF-Connecting-IP")
-	ipOrganization, err := nettools.GetIPOrganization(ip)
-	if err != nil {
-		ipOrganization = ""
-	}
-	ipCountry, err := nettools.GetIPCountry(ip)
-	if err != nil {
-		ipCountry = ""
-	}
 	c.HTML(200, "connection.html",
 		gin.H{
-			"IP":             ip,
-			"UserAgent":      c.Request.UserAgent(),
-			"IPOrganization": ipOrganization,
-			"IPCountry":      ipCountry,
+			"IP":        ip,
+			"UserAgent": c.Request.UserAgent(),
 		})
 }
 

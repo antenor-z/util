@@ -48,22 +48,12 @@ func Ip(c *gin.Context) {
 	c.String(200, "%s\n", ip)
 }
 
-func GetIPOrganization(c *gin.Context) {
+func GetIPInfo(c *gin.Context) {
 	ip := c.Request.Header.Get("CF-Connecting-IP")
-	organization, err := nettools.GetIPOrganization(ip)
+	ipInfo, err := nettools.GetIpInfo(ip)
 	if err != nil {
 		c.String(400, "unknown error")
 		return
 	}
-	c.String(200, organization)
-}
-
-func GetIPCountry(c *gin.Context) {
-	ip := c.Request.Header.Get("CF-Connecting-IP")
-	country, err := nettools.GetIPOrganization(ip)
-	if err != nil {
-		c.String(400, "unknown error")
-		return
-	}
-	c.String(200, country)
+	c.JSON(200, ipInfo)
 }

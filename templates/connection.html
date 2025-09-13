@@ -15,9 +15,21 @@
     <content>
         <h1>Your connection</h1>
         <p>Your IP is <span style="font-size: 1.3em;">{{ .IP }}</span>
-        <p>Network: {{ .IPOrganization }} From: {{ .IPCountry }}</p>
         <p>User agent: {{ .UserAgent }}</p>
+        <p>Organization: <span id="organization">...</span></p>
+        <p>Country: <span id="country">...</span></p>
     </content>
+    <script>
+    async function connection() {
+        const organization = document.getElementById("organization")
+        const country = document.getElementById("country")
+        r = await fetch("/api/ip")
+        responseJSON = r.ok? await r.json() : "could not get response"
+        organization.innerText = responseJSON.organization
+        country.innerText = responseJSON.country
+    }
+    connection()
+    </script>
 </body>
 
 </html>
