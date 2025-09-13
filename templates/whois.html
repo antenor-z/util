@@ -24,8 +24,9 @@
             const response = document.getElementById("response")
             response.innerText = "Fetching..."
             r = await fetch(`/api/whois?host=${URL}`)
-            responseText = await r.text()
+            responseText = r.ok? await r.text() : "could not get response"
             response.innerText = responseText
+            response.style.display = 'block'
         }
     </script>
 </body>

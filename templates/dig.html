@@ -44,8 +44,9 @@
             const response = document.getElementById("response")
             response.innerText = "Fetching..."
             r = await fetch(`/api/dig?host=${URL}&type=${TYPE}`)
-            responseText = await r.text()
-            response.innerText = responseText
+            responseText = r.ok? await r.text() : "could not get response"
+            response.innerText = responseText.trim("\n")
+            response.style.display = 'block'
         }
     </script>
 </body>

@@ -13,14 +13,10 @@
 </head>
 <body>
     <content>
-        <h1>uA4</h1>
+        <h1>Your connection</h1>
         <p>Your IP is <span style="font-size: 1.3em;">{{ .IP }}</span>
-        <p style="margin-top: 20px;">
-            <a class="button-like" href="/connection">your connection</a>
-            <a class="button-like" href="/dig">dig</a>
-            <a class="button-like" href="/whois">whois</a>
-            <a class="button-like" href="/codedecode">code/decode</a>
-        </p>
+        <p>Network: {{ .IPOrganization }} From: {{ .IPCountry }}</p>
+        <p>User agent: {{ .UserAgent }}</p>
     </content>
 </body>
 

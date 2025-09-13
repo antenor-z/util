@@ -1,8 +1,8 @@
 package api
 
 import (
-	"os/exec"
-	"strings"
+	"util/internal"
+	"util/nettools"
 	"util/security"
 
 	"github.com/gin-gonic/gin"
@@ -14,12 +14,13 @@ func Whois(c *gin.Context) {
 		c.String(400, "invalid hostname")
 		return
 	}
-	cmd := exec.Command("whois", recordHost)
-	output, err := cmd.CombinedOutput()
+	response, err := internal.Whois(recordHost)
 	if err != nil {
-		c.AbortWithError(400, err)
+		c.String(400, "unknown error")
+		return
 	}
-	c.String(200, security.RemoveMyIP(string(output)))
+
+	c.String(200, response)
 }
 
 func Dig(c *gin.Context) {
@@ -33,33 +34,36 @@ func Dig(c *gin.Context) {
 		c.String(400, "invalid hostname")
 		return
 	}
-	cmd := exec.Command("dig", "@1.1.1.1", recordHost, recordType)
-	output, err := cmd.CombinedOutput()
+	response, err := internal.Dig(recordHost, recordType)
 	if err != nil {
-		c.AbortWithError(400, err)
+		c.String(400, "unknown error")
+		return
 	}
-	c.String(200, extractAnswerSection(string(output)))
-}
 
-func extractAnswerSection(s string) string {
-	answerStarted := false
-	answerSection := ""
-	for _, line := range strings.Split(s, "\n") {
-		if strings.Contains(line, "ANSWER SECTION") {
-			answerStarted = true
-			continue
-		}
-		if answerStarted {
-			if strings.Contains(line, ";;") {
-				return answerSection
-			}
-			answerSection += line + "\n"
-		}
-	}
-	return answerSection
+	c.String(200, response)
 }
 
 func Ip(c *gin.Context) {
 	ip := c.Request.Header.Get("CF-Connecting-IP")
 	c.String(200, "%s\n", ip)
+}
+
+func GetIPOrganization(c *gin.Context) {
+	ip := c.Request.Header.Get("CF-Connecting-IP")
+	organization, err := nettools.GetIPOrganization(ip)
+	if err != nil {
+		c.String(400, "unknown error")
+		return
+	}
+	c.String(200, organization)
+}
+
+func GetIPCountry(c *gin.Context) {
+	ip := c.Request.Header.Get("CF-Connecting-IP")
+	country, err := nettools.GetIPOrganization(ip)
+	if err != nil {
+		c.String(400, "unknown error")
+		return
+	}
+	c.String(200, country)
 }

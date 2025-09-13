@@ -4,6 +4,12 @@ body {
     color: #f5f5f5;
     margin: 0;
     padding: 20px;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 3em;
+    margin: 5px 0 20px 0;
 }
 
 content {
@@ -81,4 +87,6 @@ select option {
     border: 1px solid #555;
     margin-top: 20px;
     display: none;
+    white-space: preserve-spaces;
+    word-wrap: anywhere;
 }
