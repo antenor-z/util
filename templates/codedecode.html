@@ -14,17 +14,19 @@
 <body>
     <content>
         <h1>Code / Decode</h1>
-        <input id="input" type="text">
-        <select name="operation" id="operation" onchange="dig()">
-            <option value="jwt-decode" selected>jwt Decode</option>
-            <option value="MD5">MD5 Hash</option>
-            <option value="SHA-1" >SHA-1 Hash</option>
-            <option value="base64-encode">Base 64 encode</option>
-            <option value="base64-decode">Base 64 decode</option>
-            <option value="url-encode">URL Encode</option>
-            <option value="url-decode">URL Decode</option>
-        </select>
-        <button onclick="codedecode()">Submit</button>
+        <div class="control-bar">
+            <input id="input" type="text">
+            <select name="operation" id="operation" onchange="dig()">
+                <option value="jwt-decode" selected>jwt Decode</option>
+                <option value="MD5">MD5 Hash</option>
+                <option value="SHA-1" >SHA-1 Hash</option>
+                <option value="base64-encode">Base 64 encode</option>
+                <option value="base64-decode">Base 64 decode</option>
+                <option value="url-encode">URL Encode</option>
+                <option value="url-decode">URL Decode</option>
+            </select>
+            <button onclick="codedecode()">Submit</button>
+        </div>
         <div class="results-box" id="response"></div>
     </content>
     <script>
