@@ -65,6 +65,12 @@
 
             return JSON.stringify(JSON.parse(jsonPayload), null, 2);
         }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault()
+                codedecode()
+            }
+        })
         async function codedecode() {
             const input = document.getElementById("input").value
             const operation = document.getElementById("operation").value
