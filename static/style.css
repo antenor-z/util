@@ -24,14 +24,9 @@ button,
 .button-like {
     font-size: 18px;
     padding: 10px 16px;
-    margin: 10px 10px 0 0;
     border: none;
     border-radius: 8px;
     outline: none;
-}
-
-button {
-     margin: 10px 0 0 0 !important;
 }
 
 input {
@@ -103,6 +98,25 @@ select option {
         width: 100%;
     }
     button {
-        min-width: 100px;
+        min-width: 120px;
+    }
+    * {
+        margin: 0 10px 0 0;
+    }
+    *:last-child {
+        margin: 0;
+    }
+}
+
+.main-menu {
+    display: flex;
+    min-width: 100px;
+    min-height: 70px;
+    overflow: scroll;
+    * {
+        margin: 0 10px 0 0;
+    }
+    *:last-child {
+        margin: 0;
     }
 }
