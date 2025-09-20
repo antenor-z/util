@@ -13,7 +13,7 @@ h1 {
 }
 
 content {
-    padding: 20px;
+    padding: 20px 15px;
     max-width: 900px;
     margin: 0 auto;
     display: block;
@@ -28,6 +28,10 @@ button,
     border: none;
     border-radius: 8px;
     outline: none;
+}
+
+button {
+     margin: 10px 0 0 0 !important;
 }
 
 input {
