@@ -16,6 +16,7 @@ func main() {
 	r.GET("/dig", dig)
 	r.GET("/whois", whois)
 	r.GET("/codedecode", codedecode)
+	r.GET("/beautify", beautify)
 	apiGroup := r.Group("/api")
 	apiGroup.GET("/dig", api.Dig)
 	apiGroup.GET("/whois", api.Whois)
@@ -53,4 +54,8 @@ func dig(c *gin.Context) {
 
 func codedecode(c *gin.Context) {
 	c.HTML(200, "codedecode.html", gin.H{})
+}
+
+func beautify(c *gin.Context) {
+	c.HTML(200, "beautify.html", gin.H{})
 }

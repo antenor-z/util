@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Whois</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    body {
+        font-size: 14px;
+    }
+    </style>
+</head>
+<body>
+    <content>
+        <h1>JSON Beautify</h1>
+        <div class="control-bar">
+            <input id="uglyJSON" type="text">
+            <button onclick="beautifyJSON()">Beautify</button>
+        </div>
+        <label for="number-of-spaces">Number of spaces</label>
+        <input id="number-of-spaces" type="number" min="0" max="16" value="2">
+        <div class="results-box" id="response"></div>
+    </content>
+    <script>
+        async function beautifyJSON() {
+            const uglyJSON = document.getElementById("uglyJSON").value
+            const nummberOfSpaces = parseInt(document.getElementById("number-of-spaces").value)
+            const response = document.getElementById("response")
+            response.innerText = "Loading..."
+            responseText = JSON.stringify(JSON.parse(uglyJSON), null, nummberOfSpaces)
+            response.innerText = responseText
+            response.style.display = 'block'
+        }
+    </script>
+</body>
+
+</html>
