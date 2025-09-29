@@ -16,13 +16,13 @@
         <h1>Code / Decode</h1>
         <div class="control-bar">
             <input id="input" type="text">
-            <select name="operation" id="operation" onchange="dig()">
+            <select name="operation" id="operation">
                 <option value="jwt-decode" selected>jwt Decode</option>
                 <option value="MD5">MD5 Hash</option>
-                <option value="SHA-1" >SHA-1 Hash</option>
-                <option value="SHA-256" >SHA-256 Hash</option>
-                <option value="SHA-384" >SHA-384 Hash</option>
-                <option value="SHA-512" >SHA-512 Hash</option>
+                <option value="SHA-1">SHA-1 Hash</option>
+                <option value="SHA-256">SHA-256 Hash</option>
+                <option value="SHA-384">SHA-384 Hash</option>
+                <option value="SHA-512">SHA-512 Hash</option>
                 <option value="base64-encode">Base 64 encode</option>
                 <option value="base64-decode">Base 64 decode</option>
                 <option value="url-encode">URL Encode</option>
@@ -78,13 +78,7 @@
             const input = document.getElementById("input").value
             const operation = document.getElementById("operation").value
             let output = ""
-            if (operation === "MD5") {
-                output = await hash(input, "MD5")
-            }
-            else if (operation === "SHA-1") {
-                output = await hash(input, "SHA-1")
-            }
-            else if (operation === "base64-encode") {
+            if (operation === "base64-encode") {
                 output = btoa(input)
             }
             else if (operation === "base64-decode") {
@@ -104,6 +98,9 @@
             }
             else if (operation === "jwt-decode") {
                 output = jwtDecode(input)
+            }
+            else {
+                output = await hash(input, operation)
             }
             
             const response = document.getElementById("response")
