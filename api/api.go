@@ -1,7 +1,7 @@
 package api
 
 import (
-	"util/internal"
+	"util/middle"
 	"util/nettools"
 	"util/security"
 
@@ -14,7 +14,8 @@ func Whois(c *gin.Context) {
 		c.String(400, "invalid hostname")
 		return
 	}
-	response, err := internal.Whois(recordHost)
+	recordHost = security.GetHostname(recordHost)
+	response, err := middle.Whois(recordHost)
 	if err != nil {
 		c.String(400, "unknown error")
 		return
@@ -34,7 +35,8 @@ func Dig(c *gin.Context) {
 		c.String(400, "invalid hostname")
 		return
 	}
-	response, err := internal.Dig(recordHost, recordType)
+	recordHost = security.GetHostname(recordHost)
+	response, err := middle.Dig(recordHost, recordType)
 	if err != nil {
 		c.String(400, "unknown error")
 		return

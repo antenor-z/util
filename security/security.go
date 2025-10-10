@@ -1,8 +1,8 @@
 package security
 
 import (
+	"net/url"
 	"os"
-	"regexp"
 	"slices"
 	"strings"
 )
@@ -20,7 +20,6 @@ func GetIP() string {
 	if err != nil {
 		return "null"
 	}
-	print(string(contentB))
 	return strings.TrimSpace(string(contentB))
 }
 
@@ -29,12 +28,39 @@ func IsRecordTypeValid(recordType string) bool {
 	return slices.Contains(validTypes, recordType)
 }
 
-func IsURLValid(content string) bool {
-	hostnameRegex := `^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$`
-	valid, err := regexp.MatchString(hostnameRegex, content)
-	return valid && len(content) <= 253 && err == nil
+func IsURLValid(rawURL string) bool {
+	if !strings.Contains(rawURL, "://") {
+		rawURL = "https://" + rawURL
+	}
+
+	if len(rawURL) > 2083 {
+		return false
+	}
+
+	parsed, err := url.ParseRequestURI(rawURL)
+	if err != nil {
+		return false
+	}
+
+	if parsed.Host == "" {
+		return false
+	}
+
+	return true
 }
 
+func GetHostname(rawURL string) string {
+	if !strings.Contains(rawURL, "://") {
+		rawURL = "https://" + rawURL
+	}
+
+	parsed, err := url.Parse(rawURL)
+	if err != nil {
+		return ""
+	}
+
+	return parsed.Hostname()
+}
 func RemoveMyIP(whoisOutput string) string {
 	sanitizedOutput := ""
 	ip := GetIP()
