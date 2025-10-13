@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>[released] Wake lock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <content>
+        <h1>Wake lock</h1>
+        Changing tabs will release the wake lock.
+        <div class="control-bar">
+            <button onclick="toggleWakeLock()" id="toggle-wake-lock">Request wake lock</button>
+        </div>
+        <div class="results-box" id="response"></div>
+    </content>
+    <script>
+        let wakeLock = null;
+        const response = document.getElementById('response')
+        const toggleWakeLockButton = document.getElementById('toggle-wake-lock')
+
+
+        async function toggleWakeLock() {
+            if (!wakeLock) {
+                await requestWakeLock()
+            }
+            else {
+                await releaseWakeLock()
+            }
+        }
+
+        async function requestWakeLock() {
+            try {
+                response.style.display = 'block'
+                wakeLock = await navigator.wakeLock.request('screen')
+                wakeLock.addEventListener('release', () => {
+                    response.innerText = 'Screen Wake Lock released'
+                    toggleWakeLockButton.innerText = "Toggle wake lock"
+                    document.title = "[released] Wake lock"
+                    wakeLock = null
+                });
+                response.innerText = 'Screen Wake Lock acquired'
+                toggleWakeLockButton.innerText = "Release wake lock"
+                document.title = "[acquired] Wake lock"
+            } catch (err) {
+                response.innerText = `${err.name}, ${err.message}`;
+            }
+        }
+
+        async function releaseWakeLock() {
+            if (wakeLock) {
+                wakeLock.release()
+                wakeLock = null
+                response.innerText = 'Screen Wake Lock released manually'
+                toggleWakeLockButton.innerText = "Toggle wake lock"
+                document.title = "[released] Wake lock"
+            }
+        }
+    </script>
+</body>
+
+</html>

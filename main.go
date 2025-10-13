@@ -17,6 +17,7 @@ func main() {
 	r.GET("/whois", whois)
 	r.GET("/codedecode", codedecode)
 	r.GET("/beautify", beautify)
+	r.GET("/wakelock", wakelock)
 	apiGroup := r.Group("/api")
 	apiGroup.GET("/dig", api.Dig)
 	apiGroup.GET("/whois", api.Whois)
@@ -58,4 +59,8 @@ func codedecode(c *gin.Context) {
 
 func beautify(c *gin.Context) {
 	c.HTML(200, "beautify.html", gin.H{})
+}
+
+func wakelock(c *gin.Context) {
+	c.HTML(200, "wakelock.html", gin.H{})
 }
