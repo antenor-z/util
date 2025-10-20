@@ -12,7 +12,7 @@ func TestExpirableCache(t *testing.T) {
 
 	// Set and Get
 	cache.Set("aa", "bb", time.Minute)
-	v, ok := cache.Get("aa")
+	v, ok := cache.GetString("aa")
 	if !ok {
 		t.Fatalf("expected key 'aa' to exist")
 	}
@@ -23,19 +23,19 @@ func TestExpirableCache(t *testing.T) {
 	// Expiration test
 	cache.Set("short", "lived", 10*time.Millisecond)
 	time.Sleep(15 * time.Millisecond)
-	if _, ok := cache.Get("short"); ok {
+	if _, ok := cache.GetString("short"); ok {
 		t.Fatalf("expected 'short' key to have expired")
 	}
 
 	// Nonexistent key
-	if _, ok := cache.Get("does_not_exist"); ok {
+	if _, ok := cache.GetString("does_not_exist"); ok {
 		t.Fatalf("expected nonexistent key to return ok=false")
 	}
 
 	// Zero TTL
 	cache.Set("forever", "alive", 0)
 	time.Sleep(20 * time.Millisecond)
-	v, ok = cache.Get("forever")
+	v, ok = cache.GetString("forever")
 	if !ok || v != "alive" {
 		t.Fatalf("expected key 'forever' to persist without expiration")
 	}
@@ -48,8 +48,31 @@ func TestExpirableCache(t *testing.T) {
 			defer wg.Done()
 			key := "key" + time.Now().String()
 			cache.Set(key, "val", time.Second)
-			cache.Get(key)
+			cache.GetString(key)
 		}(i)
 	}
 	wg.Wait()
+
+	// Arbitrary data
+	type arbitraryStruct struct {
+		a int
+		b string
+	}
+
+	testStruct := arbitraryStruct{a: 5, b: "testing"}
+	cache.Set("abc", testStruct, time.Minute)
+
+	abc, ok := cache.Get("abc")
+	if !ok {
+		t.Fatalf("expected to get a value from cache for key 'abc'")
+	}
+
+	testStructFromCache, ok := abc.(arbitraryStruct)
+	if !ok {
+		t.Fatalf("expected cached value to be of type arbitraryStruct, got %T", abc)
+	}
+
+	if testStructFromCache.a != 5 || testStructFromCache.b != "testing" {
+		t.Fatalf("expected struct %+v, got %+v", testStruct, testStructFromCache)
+	}
 }

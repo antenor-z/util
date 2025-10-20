@@ -11,7 +11,7 @@ type ExpirableCache struct {
 }
 
 type cacheValue struct {
-	value     string
+	value     any
 	createdOn time.Time
 	ttl       time.Duration
 }
@@ -25,7 +25,7 @@ func (c *ExpirableCache) Init() {
 	}
 }
 
-func (c *ExpirableCache) Set(key string, value string, ttl time.Duration) {
+func (c *ExpirableCache) Set(key string, value any, ttl time.Duration) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
@@ -38,9 +38,10 @@ func (c *ExpirableCache) Set(key string, value string, ttl time.Duration) {
 		createdOn: time.Now(),
 		ttl:       ttl,
 	}
+	print("cache set", key, value)
 }
 
-func (c *ExpirableCache) Get(key string) (string, bool) {
+func (c *ExpirableCache) Get(key string) (any, bool) {
 	c.mutex.RLock()
 	v, ok := c.cacheMap[key]
 	c.mutex.RUnlock()
@@ -60,4 +61,16 @@ func (c *ExpirableCache) Get(key string) (string, bool) {
 
 	println("cache hit", key)
 	return v.value, true
+}
+
+func (c *ExpirableCache) GetString(key string) (string, bool) {
+	value, ok := c.Get(key)
+	if !ok {
+		return "", false
+	}
+	valueStr, ok := value.(string)
+	if !ok {
+		return "", false
+	}
+	return valueStr, true
 }

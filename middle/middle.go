@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"time"
 	"util/internal"
+	"util/nettools"
 )
 
 var expirableCache ExpirableCache
 
 func Dig(recordHost, recordType string) (string, error) {
-	cacheResult, ok := expirableCache.Get(fmt.Sprintf("DIG:%s:%s", recordHost, recordType))
+	cacheResult, ok := expirableCache.GetString(fmt.Sprintf("DIG:%s:%s", recordHost, recordType))
 	if ok {
 		return cacheResult, nil
 	}
@@ -23,7 +24,7 @@ func Dig(recordHost, recordType string) (string, error) {
 }
 
 func Whois(recordHost string) (string, error) {
-	cacheResult, ok := expirableCache.Get(fmt.Sprintf("WHOIS:%s", recordHost))
+	cacheResult, ok := expirableCache.GetString(fmt.Sprintf("WHOIS:%s", recordHost))
 	if ok {
 		return cacheResult, nil
 	}
@@ -32,5 +33,19 @@ func Whois(recordHost string) (string, error) {
 		return "", err
 	}
 	expirableCache.Set(fmt.Sprintf("WHOIS:%s", recordHost), internalResult, time.Hour*3)
+	return internalResult, nil
+}
+
+func GetIpInfo(ip string) (*nettools.IpInfo, error) {
+	cacheResultAny, ok := expirableCache.Get(fmt.Sprintf("IPINFO:%s", ip))
+	if ok {
+		cacheResult := cacheResultAny.(*nettools.IpInfo)
+		return cacheResult, nil
+	}
+	internalResult, err := nettools.GetIpInfo(ip)
+	if err != nil {
+		return nil, err
+	}
+	expirableCache.Set(fmt.Sprintf("IPINFO:%s", ip), internalResult, time.Hour*12)
 	return internalResult, nil
 }

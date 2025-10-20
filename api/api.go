@@ -2,7 +2,6 @@ package api
 
 import (
 	"util/middle"
-	"util/nettools"
 	"util/security"
 
 	"github.com/gin-gonic/gin"
@@ -52,7 +51,7 @@ func Ip(c *gin.Context) {
 
 func GetIPInfo(c *gin.Context) {
 	ip := c.Request.Header.Get("CF-Connecting-IP")
-	ipInfo, err := nettools.GetIpInfo(ip)
+	ipInfo, err := middle.GetIpInfo(ip)
 	if err != nil {
 		c.String(400, "unknown error")
 		return
