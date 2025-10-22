@@ -63,6 +63,10 @@ func (c *ExpirableCache) Get(key string) (any, bool) {
 	return v.value, true
 }
 
+func (c *ExpirableCache) Delete(key string) {
+	delete(c.cacheMap, key)
+}
+
 func (c *ExpirableCache) GetString(key string) (string, bool) {
 	value, ok := c.Get(key)
 	if !ok {

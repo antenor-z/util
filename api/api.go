@@ -2,6 +2,7 @@ package api
 
 import (
 	"util/middle"
+	"util/note"
 	"util/security"
 
 	"github.com/gin-gonic/gin"
@@ -57,4 +58,29 @@ func GetIPInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(200, ipInfo)
+}
+
+func PostNote(c *gin.Context) {
+	var newNote note.NoteDto
+	err := c.ShouldBindBodyWithJSON(&newNote)
+	if err != nil {
+		c.String(400, "invalid parameters")
+		return
+	}
+	err = note.CreateNote(newNote)
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
+	c.String(200, "ok")
+}
+
+func GetNote(c *gin.Context) {
+	noteId := c.Param("noteId")
+	noteFromCache, err := note.GetNote(noteId)
+	if err != nil {
+		c.String(404, err.Error())
+		return
+	}
+	c.JSON(200, noteFromCache)
 }

@@ -7,6 +7,10 @@ body {
     font-size: 16px;
 }
 
+a, a:visited {
+    color: #154bb8;
+}
+
 h1 {
     font-size: 3em;
     margin: 5px 0 20px 0;
@@ -21,7 +25,8 @@ content {
 
 input,
 button,
-.button-like {
+.button-like,
+textarea {
     font-size: 18px;
     padding: 10px 16px;
     border: none;
@@ -29,15 +34,20 @@ button,
     outline: none;
 }
 
-input {
-    width: 300px;
+input,
+textarea {
     background-color: #2e2e2e;
     color: #f5f5f5;
     border: 1px solid #555;
     transition: border 0.2s;
 }
 
-input:focus {
+form * {
+    padding-top: 10px;
+}
+
+input:focus,
+textarea:focus {
     border-color: #ffbb00;
 }
 
@@ -88,6 +98,20 @@ select option {
     display: none;
     white-space: preserve-spaces;
     word-wrap: anywhere;
+}
+
+.note-container {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 6px;
+    width: 100%;
+}
+
+pre {
+    background: #f8f8f823;
+    padding: 1rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .control-bar {

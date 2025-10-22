@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>View Note</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <content>
+        <div id="noteContainer" class="note-container">Loading...</div>
+    </content>
+    <script>
+        async function loadNote() {
+            const pathParts = window.location.pathname.split('/')
+            const noteId = pathParts[pathParts.length - 1]
+
+            const container = document.getElementById('noteContainer')
+
+
+            try {
+                const res = await fetch(`/api/note/${noteId}`)
+                if (res.ok) {
+                    const note = await res.json()
+                    let readOnce = note.readOnce ? "⚠️ This note will be shown ONLY THIS TIME, regardless of expiration" : ""
+                    let createOn = new Date(note.createdOn)
+
+                    let createOnTime = createOn.getTime()
+                    let expirationTime = createOnTime + (note.ttlSeconds * 1000)
+                    let expirationDate = new Date(expirationTime)
+
+                    container.innerHTML = `
+                        <p><b>Expiration:</b> ${expirationDate.toLocaleString()}</p>
+                        <p>${readOnce}</p>
+                        <pre>${note.content}</pre>
+                    `
+                } else {
+                    const text = await res.text()
+                    container.innerHTML = `<p>${text}</p>`
+                }
+            } catch (err) {
+                container.innerHTML = `<p>Failed to load note: ${err.message}</p>`
+            }
+        }
+
+        loadNote()
+    </script>
+</body>
+
+</html>

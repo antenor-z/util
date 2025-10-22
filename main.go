@@ -18,10 +18,14 @@ func main() {
 	r.GET("/codedecode", codedecode)
 	r.GET("/beautify", beautify)
 	r.GET("/wakelock", wakelock)
+	r.GET("/note", postNote)
+	r.GET("/note/:noteId", getNote)
 	apiGroup := r.Group("/api")
 	apiGroup.GET("/dig", api.Dig)
 	apiGroup.GET("/whois", api.Whois)
 	apiGroup.GET("/ip", api.GetIPInfo)
+	apiGroup.POST("/note", api.PostNote)
+	apiGroup.GET("/note/:noteId", api.GetNote)
 
 	r.Run(":5200")
 }
@@ -63,4 +67,12 @@ func beautify(c *gin.Context) {
 
 func wakelock(c *gin.Context) {
 	c.HTML(200, "wakelock.html", gin.H{})
+}
+
+func postNote(c *gin.Context) {
+	c.HTML(200, "note.html", gin.H{})
+}
+
+func getNote(c *gin.Context) {
+	c.HTML(200, "note_view.html", gin.H{})
 }

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Create Note</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        form {
+            * {
+                margin: 0;
+            }
+            button {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <content>
+        <h1>Create Note</h1>
+
+        <form id="noteForm" style="display: grid">
+            <label for="noteId">Note ID</label>
+            <input type="text" id="noteId" minlength="3" required>
+
+            <label for="content">Content</label>
+            <textarea id="content" rows="5" required></textarea>
+
+            <label for="readOnce">Self-destruct after one read</label>
+            <select id="readOnce" required>
+                <option value="No" selected>No</option>
+                <option value="Yes">Yes</option>
+            </select>
+
+            <label for="ttlSeconds">Delete after</label>
+            <select id="ttlSeconds" required>
+                <option value="60" selected>1 minute</option>
+                <option value="300">5 minutes</option>
+                <option value="900">15 minutes</option>
+                <option value="3600">1 hour</option>
+                <option value="7200">2 hours</option>
+                <option value="18000">5 hours</option>
+            </select>
+
+            <button type="submit">Create</button>
+        </form>
+
+        <div class="results-box" id="result"></div>
+    </content>
+
+    <script>
+        const form = document.getElementById('noteForm')
+        const result = document.getElementById('result')
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const note = {
+                id: document.getElementById('noteId').value,
+                content: document.getElementById('content').value,
+                readOnce: document.getElementById('readOnce').value == "Yes",
+                createdOn: new Date().toISOString(),
+                ttlSeconds: parseInt(document.getElementById('ttlSeconds').value),
+                isEncrypted: false
+            }
+
+            try {
+                const res = await fetch('/api/note', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(note)
+                })
+
+                result.style.display = 'block'
+                if (res.ok) {
+                    result.innerHTML = `✅ Note created successfully! <a href="/note/${note.id}">View Note</a>`
+                    form.reset()
+                } else {
+                    const text = await res.text()
+                    result.textContent = `Error: ${text}`
+                }
+            } catch (err) {
+                result.textContent = `Request failed: ${err.message}`
+            }
+        })
+    </script>
+</body>
+
+</html>
