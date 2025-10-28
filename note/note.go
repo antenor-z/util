@@ -2,6 +2,7 @@ package note
 
 import (
 	"errors"
+	"regexp"
 	"time"
 	"util/middle"
 )
@@ -25,11 +26,7 @@ type NoteDto struct {
 	IsEncrypted bool      `json:"isEncrypted"`
 }
 
-func CreateNote(noteDto NoteDto) error {
-	_, found := notesCache.Get(noteDto.NoteId)
-	if found {
-		return errors.New("note already exists with this id")
-	}
+func validateArgs(noteDto NoteDto) error {
 	if len(noteDto.NoteId) < 3 {
 		return errors.New("note id should have at least three characters")
 	}
@@ -39,6 +36,28 @@ func CreateNote(noteDto NoteDto) error {
 	if len(noteDto.Content) > 25000 {
 		return errors.New("note content should have 25000 characters at most")
 	}
+	if noteDto.TTLSeconds > 18000 {
+		return errors.New("the maximum duration is 18000 seconds")
+	}
+	match, _ := regexp.Match(`^[A-Za-z0-9\-]+$`, []byte(noteDto.NoteId))
+	if !match {
+		return errors.New("the note id should have only alphanumeric characters")
+	}
+
+	return nil
+}
+
+func CreateNote(noteDto NoteDto) error {
+	_, found := notesCache.Get(noteDto.NoteId)
+	if found {
+		return errors.New("note already exists with this id")
+	}
+
+	err := validateArgs(noteDto)
+	if err != nil {
+		return err
+	}
+
 	note := note{
 		Content:     noteDto.Content,
 		ReadOnce:    noteDto.ReadOnce,
@@ -46,9 +65,7 @@ func CreateNote(noteDto NoteDto) error {
 		TTLSeconds:  noteDto.TTLSeconds,
 		IsEncrypted: noteDto.IsEncrypted,
 	}
-	if note.TTLSeconds > 18000 {
-		return errors.New("the maximum duration is 18000 seconds")
-	}
+
 	notesCache.Set(noteDto.NoteId, note, time.Second*time.Duration(noteDto.TTLSeconds))
 	return nil
 }
