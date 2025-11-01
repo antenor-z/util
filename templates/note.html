@@ -15,6 +15,25 @@
                 margin-top: 20px;
             }
         }
+
+        .results-box {
+            margin-top: 20px;
+            white-space: unset;
+        }
+
+        .copy-btn {
+            margin-right: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 
@@ -76,7 +95,23 @@
 
                 result.style.display = 'block'
                 if (res.ok) {
-                    result.innerHTML = `✅ Note created successfully! <a href="/note/${note.id}">View Note</a>`
+                    const noteUrl = `${window.location.origin}/note/${note.id}`
+
+                    result.innerHTML = `
+                        ✅ Note created successfully! <br /><br />
+                        <button class="copy-btn" onclick='window.location = "${noteUrl}"'>View Note</button>
+                        <button class="copy-btn" id="copyLinkBtn">Copy Link</button>
+                    `
+
+                    document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+                        try {
+                            await navigator.clipboard.writeText(noteUrl)
+                            alert('Link copied to clipboard!')
+                        } catch (err) {
+                            alert('Failed to copy link: ' + err.message)
+                        }
+                    })
+
                     form.reset()
                 } else {
                     const text = await res.text()

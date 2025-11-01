@@ -6,6 +6,26 @@
     <title>View Note</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .results-box {
+            margin-top: 20px;
+            white-space: unset;
+        }
+
+        .copy-btn {
+            margin-right: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -35,6 +55,17 @@
                         <p><b>Expiration:</b> ${expirationDate.toLocaleString()}</p>
                         <p>${readOnce}</p>
                         <pre>${note.content}</pre>
+                        <button class="copy-btn" id="copyNoteBtn">Copy Note</button>
+                        <script>
+                        document.getElementById('copyNoteBtn').addEventListener('click', async () => {
+                            try {
+                                await navigator.clipboard.writeText("${note.content}")
+                                alert('Note copied to clipboard')
+                            } catch (err) {
+                                alert('Failed to copy link: ' + err.message)
+                            }
+                        })
+                        </script>
                     `
                 } else {
                     const text = await res.text()
