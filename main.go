@@ -2,6 +2,7 @@ package main
 
 import (
 	"util/api"
+	"util/middle"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,11 +33,13 @@ func main() {
 
 func home(c *gin.Context) {
 	ip := c.Request.Header.Get("CF-Connecting-IP")
+	ipInfo, _ := middle.GetIpInfo(ip)
 
 	c.HTML(200, "main.html",
 		gin.H{
-			"IP":        ip,
-			"UserAgent": c.Request.UserAgent(),
+			"IP":           ip,
+			"UserAgent":    c.Request.UserAgent(),
+			"Organization": ipInfo.Organization,
 		})
 }
 

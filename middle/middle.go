@@ -44,7 +44,7 @@ func GetIpInfo(ip string) (*nettools.IpInfo, error) {
 	}
 	internalResult, err := nettools.GetIpInfo(ip)
 	if err != nil {
-		return nil, err
+		return &nettools.IpInfo{}, err
 	}
 	expirableCache.Set(fmt.Sprintf("IPINFO:%s", ip), internalResult, time.Hour*12)
 	return internalResult, nil

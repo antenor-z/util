@@ -3,18 +3,13 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/scroll.css">
     <title>uA4</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-    body {
-        font-size: 14px;
-    }
-    </style>
 </head>
 <body>
     <content>
         <h1>uA4</h1>
-        <p>Your IP is <span style="font-size: 1.3em;">{{ .IP }}</span>
         <div class="main-menu">
             <button onclick="window.location='/conn'">your connection</a>
             <button onclick="window.location='/dig'">dig</a>
@@ -24,6 +19,7 @@
             <button onclick="window.location='/wakelock'">wake lock</a>
             <button onclick="window.location='/note'">note</a>
         </div>
+        <p style="position: absolute; bottom: 2px;">Your IP is <span style="font-size: 1.3em;">{{ .IP }} ({{ .Organization }})</span>
     </content>
 </body>
 

@@ -4,16 +4,21 @@ body {
     color: #f5f5f5;
     margin: 0;
     padding: 0;
-    font-size: 16px;
+    font-size: 18px;
+    scrollbar-width: thin;
 }
 
-a, a:visited {
+a,
+a:visited {
     color: #154bb8;
 }
 
 h1 {
     font-size: 3em;
-    margin: 5px 0 20px 0;
+    margin: 5px 0 30px 0px;
+    border-bottom: #ffbb00 2px solid;
+    padding: 10px;
+    background-color: #232323;
 }
 
 content {
@@ -51,7 +56,8 @@ textarea:focus {
     border-color: #ffbb00;
 }
 
-button, .button-like {
+button,
+.button-like {
     background-color: #ffbb00;
     color: #1e1e1e;
     font-weight: bold;
@@ -61,7 +67,8 @@ button, .button-like {
     border-radius: 8px;
 }
 
-button:hover, .button-like:hover {
+button:hover,
+.button-like:hover {
     background-color: #ffc966;
 }
 
@@ -118,15 +125,19 @@ pre {
     display: flex;
     justify-content: center;
     align-items: center;
+
     input {
         width: 100%;
     }
+
     button {
         min-width: 120px;
     }
+
     * {
         margin: 0 10px 0 0;
     }
+
     *:last-child {
         margin: 0;
     }
@@ -136,10 +147,12 @@ pre {
     display: flex;
     min-width: 100px;
     min-height: 70px;
-    overflow: scroll;
+    overflow-x: auto;
+
     * {
         margin: 0 10px 0 0;
     }
+
     *:last-child {
         margin: 0;
     }
