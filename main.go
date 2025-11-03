@@ -32,7 +32,12 @@ func main() {
 }
 
 func home(c *gin.Context) {
-	ip := c.Request.Header.Get("CF-Connecting-IP")
+	if !api.IsGraphicalBrowser(c) {
+		ip := api.Ip(c)
+		c.String(200, ip)
+		return
+	}
+	ip := api.Ip(c)
 	ipInfo, _ := middle.GetIpInfo(ip)
 
 	c.HTML(200, "main.html",
@@ -44,7 +49,7 @@ func home(c *gin.Context) {
 }
 
 func connection(c *gin.Context) {
-	ip := c.Request.Header.Get("CF-Connecting-IP")
+	ip := api.Ip(c)
 	c.HTML(200, "connection.html",
 		gin.H{
 			"IP":         ip,

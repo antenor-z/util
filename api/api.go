@@ -1,6 +1,7 @@
 package api
 
 import (
+	"strings"
 	"util/middle"
 	"util/note"
 	"util/security"
@@ -45,13 +46,17 @@ func Dig(c *gin.Context) {
 	c.String(200, response)
 }
 
-func Ip(c *gin.Context) {
+func IsGraphicalBrowser(c *gin.Context) bool {
+	return strings.Contains(c.Request.UserAgent(), "Mozilla")
+}
+
+func Ip(c *gin.Context) string {
 	ip := c.Request.Header.Get("CF-Connecting-IP")
-	c.String(200, "%s\n", ip)
+	return ip
 }
 
 func GetIPInfo(c *gin.Context) {
-	ip := c.Request.Header.Get("CF-Connecting-IP")
+	ip := Ip(c)
 	ipInfo, err := middle.GetIpInfo(ip)
 	if err != nil {
 		c.String(400, "unknown error")
