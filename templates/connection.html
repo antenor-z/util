@@ -9,10 +9,25 @@
 <body>
     <content>
         <h1>Your connection</h1>
-        <p>Your IP is <span style="font-size: 1.3em;">{{ .IP }}</span>
-        <p>User agent: {{ .UserAgent }}</p>
-        <p>Organization: <span id="organization">...</span></p>
-        <p>Country: <span id="country">...</span></p>
+        <ul>
+            <li>Your IP is <span style="font-size: 1.3em;">{{ .IP }}</span>
+            <li>User agent: {{ .UserAgent }}</li>
+            <li>Organization: <span id="organization">...</span></li>
+            <li>Country: <span id="country">...</span></li>
+            <li>User agent: {{ .RemoteHost }}</li>
+            <li>User agent: {{ .UserAgent }}</li>
+            <li>Port: {{ .Port }}</li>
+            <li>Referer: {{ .Referer }}</li>
+            <li>Connection: {{ .Connection }}</li>
+            <li>Keep Alive: {{ .KeepAlive }}</li>
+            <li>Method: {{ .Method }}</li>
+            <li>Encoding: {{ .Encoding }}</li>
+            <li>Mime: {{ .Mime }}</li>
+            <li>Charset: {{ .Charset }}</li>
+            <li>Via: {{ .Via }}</li>
+            <li>Forwarded: {{ .Forwarded }}</li>
+        </ul>
+
     </content>
     <script>
     document.addEventListener('keydown', function(event) {
