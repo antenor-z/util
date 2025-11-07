@@ -11,40 +11,22 @@
         <h1>Your connection</h1>
         <ul>
             <li>Your IP is <span style="font-size: 1.3em;">{{ .IP }}</span>
-            <li>Organization: <span id="organization">...</span></li>
-            <li>Country: <span id="country">...</span></li>
-            <li>User agent: {{ .RemoteHost }}</li>
-            <li>User agent: {{ .UserAgent }}</li>
-            <li>Port: {{ .Port }}</li>
-            <li>Referer: {{ .Referer }}</li>
-            <li>Connection: {{ .Connection }}</li>
-            <li>Keep Alive: {{ .KeepAlive }}</li>
-            <li>Method: {{ .Method }}</li>
-            <li>Encoding: {{ .Encoding }}</li>
-            <li>Mime: {{ .Mime }}</li>
-            <li>Charset: {{ .Charset }}</li>
-            <li>Via: {{ .Via }}</li>
-            <li>Forwarded: {{ .Forwarded }}</li>
+            <li>Organization: <b>{{ .Organization }}</b></li>
+            <li>Country: <b>{{ .Country }}</b></li>
+            <li>Location: <b>{{ .City }} - {{ .State }}</b></li>
+            <li>Timezone: <b>{{ .Timezone }}</b></li>
+            <li>User agent: <b>{{ .UserAgent }}</b></li>
+            <li>Port: <b>{{ .Port }}</b></li>
+            <li>Referer: <b>{{ .Referer }}</b></li>
+            <li>Connection: <b>{{ .Connection }}</b></li>
+            <li>Method: <b>{{ .Method }}</b></li>
+            <li>Encoding: <b>{{ .Encoding }}</b></li>
+            <li>Mime: <b>{{ .Mime }}</b></li>
+            <li>Charset: <b>{{ .Charset }}</b></li>
+            <li>Forwarded: <b>{{ .Forwarded }}</b></li>
         </ul>
 
     </content>
-    <script>
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault()
-            connection()
-        }
-    })
-    async function connection() {
-        const organization = document.getElementById("organization")
-        const country = document.getElementById("country")
-        r = await fetch("/api/ip")
-        responseJSON = r.ok? await r.json() : "could not get response"
-        organization.innerText = responseJSON.organization
-        country.innerText = responseJSON.country
-    }
-    connection()
-    </script>
 </body>
 
 </html>

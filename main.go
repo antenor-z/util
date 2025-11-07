@@ -24,7 +24,6 @@ func main() {
 	apiGroup := r.Group("/api")
 	apiGroup.GET("/dig", api.Dig)
 	apiGroup.GET("/whois", api.Whois)
-	apiGroup.GET("/ip", api.GetIPInfo)
 	apiGroup.POST("/note", api.PostNote)
 	apiGroup.GET("/note/:noteId", api.GetNote)
 
@@ -50,22 +49,29 @@ func home(c *gin.Context) {
 
 func connection(c *gin.Context) {
 	ip := api.Ip(c)
+	ipLocation, _ := middle.GetIpLocation(ip)
+	ipInfo, _ := middle.GetIpInfo(ip)
 	c.HTML(200, "connection.html",
 		gin.H{
-			"IP":         ip,
-			"UserAgent":  c.Request.UserAgent(),
-			"RemoteHost": c.Request.RemoteAddr,
-			"Port":       c.Request.URL.Port(),
-			"Language":   c.Request.Header.Get("Accept-Language"),
-			"Referer":    c.Request.Header.Get("Referer"),
-			"Connection": c.Request.Header.Get("Connection"),
-			"KeepAlive":  c.Request.Header.Get("Keep-Alive"),
-			"Method":     c.Request.Method,
-			"Encoding":   c.Request.Header.Get("Accept-Encoding"),
-			"Mime":       c.Request.Header.Get("Accept"),
-			"Charset":    c.Request.Header.Get("Accept-Charset"),
-			"Via":        c.Request.Header.Get("via"),
-			"Forwarded":  c.Request.Header.Get("X-Forwarded-For"),
+			"IP":           ip,
+			"UserAgent":    c.Request.UserAgent(),
+			"RemoteHost":   c.Request.RemoteAddr,
+			"Port":         c.Request.URL.Port(),
+			"Language":     c.Request.Header.Get("Accept-Language"),
+			"Referer":      c.Request.Header.Get("Referer"),
+			"Connection":   c.Request.Header.Get("Connection"),
+			"KeepAlive":    c.Request.Header.Get("Keep-Alive"),
+			"Method":       c.Request.Method,
+			"Encoding":     c.Request.Header.Get("Accept-Encoding"),
+			"Mime":         c.Request.Header.Get("Accept"),
+			"Charset":      c.Request.Header.Get("Accept-Charset"),
+			"Via":          c.Request.Header.Get("via"),
+			"Forwarded":    c.Request.Header.Get("X-Forwarded-For"),
+			"Organization": ipInfo.Organization,
+			"Country":      ipInfo.Country,
+			"City":         ipLocation.City,
+			"State":        ipLocation.State,
+			"Timezone":     ipLocation.Timezone,
 		})
 }
 

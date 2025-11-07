@@ -49,3 +49,17 @@ func GetIpInfo(ip string) (*nettools.IpInfo, error) {
 	expirableCache.Set(fmt.Sprintf("IPINFO:%s", ip), internalResult, time.Hour*12)
 	return internalResult, nil
 }
+
+func GetIpLocation(ip string) (*nettools.IpLocation, error) {
+	cacheResultAny, ok := expirableCache.Get(fmt.Sprintf("IPLOCATION:%s", ip))
+	if ok {
+		cacheResult := cacheResultAny.(*nettools.IpLocation)
+		return cacheResult, nil
+	}
+	internalResult, err := nettools.GetIpLocation(ip)
+	if err != nil {
+		return &nettools.IpLocation{}, err
+	}
+	expirableCache.Set(fmt.Sprintf("IPLOCATION:%s", ip), internalResult, time.Hour*12)
+	return internalResult, nil
+}
