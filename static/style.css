@@ -143,16 +143,23 @@ pre {
 }
 
 .main-menu {
-    display: flex;
+    display: block;
     min-width: 100px;
     min-height: 70px;
     overflow-x: auto;
 
     * {
-        margin: 0 10px 0 0;
+        margin: 5px;
+        padding: 20px 30px;
     }
+}
 
-    *:last-child {
+form {
+    display: grid;
+    * {
         margin: 0;
+    }
+    button {
+        margin-top: 20px;
     }
 }

@@ -21,11 +21,13 @@ func main() {
 	r.GET("/wakelock", wakelock)
 	r.GET("/note", postNote)
 	r.GET("/note/:noteId", getNote)
+	r.GET("qr", getQR)
 	apiGroup := r.Group("/api")
 	apiGroup.GET("/dig", api.Dig)
 	apiGroup.GET("/whois", api.Whois)
 	apiGroup.POST("/note", api.PostNote)
 	apiGroup.GET("/note/:noteId", api.GetNote)
+	apiGroup.GET("/qr", api.GetQRCode)
 
 	r.Run(":5200")
 }
@@ -101,4 +103,8 @@ func postNote(c *gin.Context) {
 
 func getNote(c *gin.Context) {
 	c.HTML(200, "note_view.html", gin.H{})
+}
+
+func getQR(c *gin.Context) {
+	c.HTML(200, "qr.html", gin.H{})
 }

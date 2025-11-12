@@ -7,6 +7,7 @@ import (
 	"util/security"
 
 	"github.com/gin-gonic/gin"
+	"github.com/skip2/go-qrcode"
 )
 
 func Whois(c *gin.Context) {
@@ -88,4 +89,14 @@ func GetNote(c *gin.Context) {
 		return
 	}
 	c.JSON(200, noteFromCache)
+}
+
+func GetQRCode(c *gin.Context) {
+	text := c.Query("text")
+	var png []byte
+	png, err := qrcode.Encode(text, qrcode.Medium, 256)
+	if err != nil {
+		c.String(400, err.Error())
+	}
+	c.Data(200, "image/png", png)
 }

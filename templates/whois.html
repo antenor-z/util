@@ -25,11 +25,11 @@
         async function whois() {
             const URL = document.getElementById("url").value
             const response = document.getElementById("response")
+            response.style.display = 'block'
             response.innerText = "Fetching..."
             r = await fetch(`/api/whois?host=${URL}`)
             responseText = r.ok? await r.text() : "could not get response"
             response.innerText = responseText
-            response.style.display = 'block'
         }
     </script>
 </body>
