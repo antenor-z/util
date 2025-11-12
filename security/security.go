@@ -2,26 +2,10 @@ package security
 
 import (
 	"net/url"
-	"os"
 	"slices"
 	"strings"
+	"util/nettools"
 )
-
-func GetHost() string {
-	contentB, err := os.ReadFile("host.txt")
-	if err != nil {
-		return "null"
-	}
-	return strings.TrimSpace(string(contentB))
-}
-
-func GetIP() string {
-	contentB, err := os.ReadFile("ip.txt")
-	if err != nil {
-		return "null"
-	}
-	return strings.TrimSpace(string(contentB))
-}
 
 func IsRecordTypeValid(recordType string) bool {
 	validTypes := []string{"A", "AAAA", "CAA", "CNAME", "DNSKEY", "DS", "MX", "NS", "PTR", "SOA", "SRV", "TLSA", "TSIG", "TXT"}
@@ -63,7 +47,7 @@ func GetHostname(rawURL string) string {
 }
 func RemoveMyIP(whoisOutput string) string {
 	sanitizedOutput := ""
-	ip := GetIP()
+	ip := nettools.GetIP()
 	for _, line := range strings.Split(whoisOutput, "\n") {
 		if !strings.Contains(line, ip) {
 			sanitizedOutput += line + "\n"

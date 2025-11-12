@@ -3,11 +3,13 @@ package main
 import (
 	"util/api"
 	"util/middle"
+	"util/nettools"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	nettools.GetIP()
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
