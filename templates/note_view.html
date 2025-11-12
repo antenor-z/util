@@ -56,17 +56,17 @@
                         <p>${readOnce}</p>
                         <pre>${note.content}</pre>
                         <button class="copy-btn" id="copyNoteBtn">Copy Note</button>
-                        <script>
-                        document.getElementById('copyNoteBtn').addEventListener('click', async () => {
-                            try {
-                                await navigator.clipboard.writeText("${note.content}")
-                                alert('Note copied to clipboard')
-                            } catch (err) {
-                                alert('Failed to copy link: ' + err.message)
-                            }
-                        })
-                        </script>
                     `
+
+                    const copyBtn = document.getElementById('copyNoteBtn')
+                    copyBtn.addEventListener('click', async () => {
+                        try {
+                            await navigator.clipboard.writeText(note.content)
+                            alert('Note copied to clipboard')
+                        } catch (err) {
+                            alert('Failed to copy note: ' + err.message)
+                        }
+                    })
                 } else {
                     const text = await res.text()
                     container.innerHTML = `<p>${text}</p>`
