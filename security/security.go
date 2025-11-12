@@ -71,3 +71,9 @@ func RemoveMyIP(whoisOutput string) string {
 	}
 	return sanitizedOutput
 }
+
+func EscapeHTML(s string) string {
+	s = strings.ReplaceAll(s, "<", "&lt")
+	s = strings.ReplaceAll(s, ">", "&gt")
+	return s
+}

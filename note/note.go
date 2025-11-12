@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"time"
 	"util/middle"
+	"util/security"
 )
 
 var notesCache middle.ExpirableCache
@@ -59,7 +60,7 @@ func CreateNote(noteDto NoteDto) error {
 	}
 
 	note := note{
-		Content:     noteDto.Content,
+		Content:     security.EscapeHTML(noteDto.Content),
 		ReadOnce:    noteDto.ReadOnce,
 		CreatedOn:   noteDto.CreatedOn,
 		TTLSeconds:  noteDto.TTLSeconds,
