@@ -18,7 +18,7 @@ var gotoCache middle.ExpirableCache
 func Set(gotoUrlDto GotoUrlDto) error {
 	_, ok := gotoCache.GetString(gotoUrlDto.Alias)
 	if ok {
-		return errors.New("an alias already exists")
+		return errors.New("this alias already exists")
 	}
 	if !security.IsURLValid(gotoUrlDto.Url) {
 		return errors.New("invalid URL")
