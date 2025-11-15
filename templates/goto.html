@@ -9,11 +9,13 @@
 <body>
     <content>
         <h1>Goto</h1>
-        <div class="control-bar">
+        <form id="noteForm" style="display: grid">
+            <label for="alias">Alias</label>
             <input id="alias" type="alias">
+            <label for="url">Go to URL</label>
             <input id="url" type="url">
             <button onclick="urlShortner()">Submit</button>
-        </div>
+        </form>
         <div class="results-box" id="response"></div>
     </content>
     <script>
