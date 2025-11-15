@@ -2,7 +2,6 @@ package main
 
 import (
 	"util/api"
-	"util/middle"
 	"util/nettools"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +22,8 @@ func main() {
 	r.GET("/wakelock", wakelock)
 	r.GET("/note", postNote)
 	r.GET("/note/:noteId", getNote)
+	r.GET("/g/:alias", goTo)
+	r.GET("/goto", URLShortenerPage)
 	r.GET("qr", getQR)
 	apiGroup := r.Group("/api")
 	apiGroup.GET("/dig", api.Dig)
@@ -30,83 +31,7 @@ func main() {
 	apiGroup.POST("/note", api.PostNote)
 	apiGroup.GET("/note/:noteId", api.GetNote)
 	apiGroup.GET("/qr", api.GetQRCode)
+	apiGroup.POST("/goto", api.URLShortener)
 
 	r.Run(":5200")
-}
-
-func home(c *gin.Context) {
-	if !api.IsGraphicalBrowser(c) {
-		ip := api.Ip(c)
-		c.String(200, ip)
-		return
-	}
-	ip := api.Ip(c)
-	ipInfo, _ := middle.GetIpInfo(ip)
-
-	c.HTML(200, "main.html",
-		gin.H{
-			"IP":           ip,
-			"UserAgent":    c.Request.UserAgent(),
-			"Organization": ipInfo.Organization,
-		})
-}
-
-func connection(c *gin.Context) {
-	ip := api.Ip(c)
-	ipLocation, _ := middle.GetIpLocation(ip)
-	ipInfo, _ := middle.GetIpInfo(ip)
-	c.HTML(200, "connection.html",
-		gin.H{
-			"IP":           ip,
-			"UserAgent":    c.Request.UserAgent(),
-			"RemoteHost":   c.Request.RemoteAddr,
-			"Port":         c.Request.URL.Port(),
-			"Language":     c.Request.Header.Get("Accept-Language"),
-			"Referer":      c.Request.Header.Get("Referer"),
-			"Connection":   c.Request.Header.Get("Connection"),
-			"KeepAlive":    c.Request.Header.Get("Keep-Alive"),
-			"Method":       c.Request.Method,
-			"Encoding":     c.Request.Header.Get("Accept-Encoding"),
-			"Mime":         c.Request.Header.Get("Accept"),
-			"Charset":      c.Request.Header.Get("Accept-Charset"),
-			"Via":          c.Request.Header.Get("via"),
-			"Forwarded":    c.Request.Header.Get("X-Forwarded-For"),
-			"Organization": ipInfo.Organization,
-			"Country":      ipInfo.Country,
-			"City":         ipLocation.City,
-			"State":        ipLocation.State,
-			"Timezone":     ipLocation.Timezone,
-		})
-}
-
-func whois(c *gin.Context) {
-	c.HTML(200, "whois.html", gin.H{})
-}
-
-func dig(c *gin.Context) {
-	c.HTML(200, "dig.html", gin.H{})
-}
-
-func codedecode(c *gin.Context) {
-	c.HTML(200, "codedecode.html", gin.H{})
-}
-
-func beautify(c *gin.Context) {
-	c.HTML(200, "beautify.html", gin.H{})
-}
-
-func wakelock(c *gin.Context) {
-	c.HTML(200, "wakelock.html", gin.H{})
-}
-
-func postNote(c *gin.Context) {
-	c.HTML(200, "note.html", gin.H{})
-}
-
-func getNote(c *gin.Context) {
-	c.HTML(200, "note_view.html", gin.H{})
-}
-
-func getQR(c *gin.Context) {
-	c.HTML(200, "qr.html", gin.H{})
 }

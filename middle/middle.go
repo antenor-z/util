@@ -7,10 +7,10 @@ import (
 	"util/nettools"
 )
 
-var expirableCache ExpirableCache
+var digCache, whoisCache, ipInfoCache, ipLocation ExpirableCache
 
 func Dig(recordHost, recordType string) (string, error) {
-	cacheResult, ok := expirableCache.GetString(fmt.Sprintf("DIG:%s:%s", recordHost, recordType))
+	cacheResult, ok := digCache.GetString(fmt.Sprintf("%s:%s", recordHost, recordType))
 	if ok {
 		return cacheResult, nil
 	}
@@ -18,13 +18,13 @@ func Dig(recordHost, recordType string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	expirableCache.Set(fmt.Sprintf("DIG:%s:%s", recordHost, recordType), internalResult, time.Minute)
+	digCache.Set(fmt.Sprintf("%s:%s", recordHost, recordType), internalResult, time.Minute)
 	return internalResult, nil
 
 }
 
 func Whois(recordHost string) (string, error) {
-	cacheResult, ok := expirableCache.GetString(fmt.Sprintf("WHOIS:%s", recordHost))
+	cacheResult, ok := whoisCache.GetString(recordHost)
 	if ok {
 		return cacheResult, nil
 	}
@@ -32,12 +32,12 @@ func Whois(recordHost string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	expirableCache.Set(fmt.Sprintf("WHOIS:%s", recordHost), internalResult, time.Hour*3)
+	whoisCache.Set(recordHost, internalResult, time.Hour*3)
 	return internalResult, nil
 }
 
 func GetIpInfo(ip string) (*nettools.IpInfo, error) {
-	cacheResultAny, ok := expirableCache.Get(fmt.Sprintf("IPINFO:%s", ip))
+	cacheResultAny, ok := ipInfoCache.Get(ip)
 	if ok {
 		cacheResult := cacheResultAny.(*nettools.IpInfo)
 		return cacheResult, nil
@@ -46,12 +46,12 @@ func GetIpInfo(ip string) (*nettools.IpInfo, error) {
 	if err != nil {
 		return &nettools.IpInfo{}, err
 	}
-	expirableCache.Set(fmt.Sprintf("IPINFO:%s", ip), internalResult, time.Hour*12)
+	ipInfoCache.Set(ip, internalResult, time.Hour*12)
 	return internalResult, nil
 }
 
 func GetIpLocation(ip string) (*nettools.IpLocation, error) {
-	cacheResultAny, ok := expirableCache.Get(fmt.Sprintf("IPLOCATION:%s", ip))
+	cacheResultAny, ok := ipLocation.Get(ip)
 	if ok {
 		cacheResult := cacheResultAny.(*nettools.IpLocation)
 		return cacheResult, nil
@@ -60,6 +60,6 @@ func GetIpLocation(ip string) (*nettools.IpLocation, error) {
 	if err != nil {
 		return &nettools.IpLocation{}, err
 	}
-	expirableCache.Set(fmt.Sprintf("IPLOCATION:%s", ip), internalResult, time.Hour*12)
+	ipLocation.Set(ip, internalResult, time.Hour*12)
 	return internalResult, nil
 }

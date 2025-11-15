@@ -2,12 +2,13 @@ package api
 
 import (
 	"strings"
+	gotoURL "util/gotoUrl"
 	"util/middle"
 	"util/note"
+	"util/qr"
 	"util/security"
 
 	"github.com/gin-gonic/gin"
-	"github.com/skip2/go-qrcode"
 )
 
 func Whois(c *gin.Context) {
@@ -93,10 +94,27 @@ func GetNote(c *gin.Context) {
 
 func GetQRCode(c *gin.Context) {
 	text := c.Query("text")
-	var png []byte
-	png, err := qrcode.Encode(text, qrcode.Medium, 256)
+	png, err := qr.QrGen(text)
 	if err != nil {
 		c.String(400, err.Error())
+		return
 	}
 	c.Data(200, "image/png", png)
+}
+
+func URLShortener(c *gin.Context) {
+	var newGoto gotoURL.GotoUrlDto
+	err := c.ShouldBindBodyWithJSON(&newGoto)
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
+
+	err = gotoURL.Set(newGoto)
+	if err != nil {
+		c.String(400, err.Error())
+		return
+	}
+
+	c.String(200, "ok")
 }

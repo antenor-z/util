@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Goto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <content>
+        <h1>Goto</h1>
+        <div class="control-bar">
+            <input id="alias" type="alias">
+            <input id="url" type="url">
+            <button onclick="urlShortner()">Submit</button>
+        </div>
+        <div class="results-box" id="response"></div>
+    </content>
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault()
+                urlShortner()
+            }
+        })
+        async function urlShortner() {
+            const URL = document.getElementById("url").value
+            const alias = document.getElementById("alias").value
+            const newGoto = {"url": URL, "alias": alias}
+            const res = await fetch('/api/goto', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newGoto)
+            })
+            const response = document.getElementById('response')
+            response.style.display = 'block'
+            if (!res.ok) {
+                response.innerHTML = await res.text()
+                return
+            }
+            const gotoLocation = `${window.location.origin}/g/${alias}`
+            response.innerHTML = `<a href="${gotoLocation}">${gotoLocation}</a>`
+        }
+    </script>
+</body>
+
+</html>
