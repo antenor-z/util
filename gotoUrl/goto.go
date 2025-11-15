@@ -23,7 +23,7 @@ func Set(gotoUrlDto GotoUrlDto) error {
 	if len(gotoUrlDto.Alias) < 3 {
 		return errors.New("alias should have at least three characters")
 	}
-	if len(gotoUrlDto.Alias) < 100 {
+	if len(gotoUrlDto.Alias) > 100 {
 		return errors.New("alias should have 100 characters at most")
 	}
 	if !security.IsURLValid(gotoUrlDto.Url) {
